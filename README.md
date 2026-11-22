@@ -160,7 +160,7 @@
   }
 
   async function loadModelsFromRepo() {
-    const apiUrl = `https://github.com{CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/git/trees/${CONFIG.BRANCH}?recursive=1`;
+    const apiUrl = `https://github.com/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/git/trees/${CONFIG.BRANCH}?recursive=1`;
 
     try {
       const response = await fetch(apiUrl);
