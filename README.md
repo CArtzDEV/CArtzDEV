@@ -1,4 +1,4 @@
-[![3D Portfolio Preview](https://github.com/user-attachments/assets/2fd969f3-e22c-4183-a382-8491edffe3ee)](https://cartzdev.github.io/CArtzDEV)
+[![3D Portfolio Preview](https://github.com/user-attachments/assets/69fd234f-a539-4cca-bd5e-9814acf526cf)](https://cartzdev.github.io/CArtzDEV)
 
 ---
 
