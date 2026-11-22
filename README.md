@@ -142,9 +142,8 @@
 
   function detectSoftware(filePath) {
     const folder = filePath.split("/")[0]?.toLowerCase();
-    if (folder === "blender") return "Blender";
-    if (folder === "freecad") return "FreeCAD";
-    return folder && filePath.includes("/") ? folder.toUpperCase() : "3D Asset";
+    const folder_upper = String(folder).charAt(0).toUpperCase() + String(folder).slice(1);
+    return folder_upper && filePath.includes("/") ? folder_upper : "Asset";
   }
 
   function renderModel(index) {
@@ -159,8 +158,8 @@
     counterEl.textContent = `${currentIndex + 1} / ${models.length}`;
   }
 
-  async function loadModelsFromRepo() {
-    const apiUrl = `https://github.com/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/git/trees/${CONFIG.BRANCH}?recursive=1`;
+  async function loadModels() {
+    const apiUrl = `https://github.com/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}`;
 
     try {
       const response = await fetch(apiUrl);
@@ -203,7 +202,7 @@
     if (e.key === "ArrowRight") renderModel(currentIndex + 1);
   });
 
-  loadModelsFromRepo();
+  loadModels();
 </script>
 
 
