@@ -159,7 +159,7 @@
   }
 
   async function loadModels() {
-    const apiUrl = `https://github.com/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/git/trees/main?recursive=1`;
+    const apiUrl = `https://api.github.com/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/git/trees/main?recursive=1`;
 
     try {
       const response = await fetch(apiUrl);
