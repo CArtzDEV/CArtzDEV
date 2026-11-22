@@ -7,3 +7,6 @@
   camera-controls 
   style="width: 100%; height: 400px; background-color: #111;">
 </model-viewer>
+
+---
+© 2026 CArtz. All rights reserved
