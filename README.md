@@ -118,8 +118,8 @@
 
 <script type="module">
   const CONFIG = {
-    GITHUB_USER: "TWOJ_NICK_NA_GITHUBIE",
-    GITHUB_REPO: "NAZWA_TWOJEGO_REPO",
+    GITHUB_USER: "CArtzDEV",
+    GITHUB_REPO: "CArtzDEV",
     BRANCH: "main"
   };
 
