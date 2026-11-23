@@ -119,8 +119,13 @@
         auto-rotate
         camera-controls
         shadow-intensity="1"
-        exposure="1"
+        exposure="0.5"
+        environment-image="neutral" 
         interaction-prompt="auto">
+        <effect-composer render-mode="quality">
+          <selective-bloom-effect strength="1.5" radius="0.6" threshold="0.9"></selective-bloom-effect>
+          <color-grade-effect></color-grade-effect>
+        </effect-composer>
       </model-viewer>
       <button class="mv-nav mv-prev" id="mv-prev-btn" aria-label="Previous model" disabled>❮</button>
       <button class="mv-nav mv-next" id="mv-next-btn" aria-label="Next model" disabled>❯</button>
@@ -138,8 +143,17 @@
     © 2026 CArtz. All rights reserved
   </footer>
 
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js"
+    }
+  }
+  </script>
+  
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.4.0/model-viewer.min.js"></script>
-
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer-effects/dist/model-viewer-effects.min.js"></script>
+  
   <script type="module">
     const CONFIG = {
       GITHUB_USER: "CArtzDEV",
