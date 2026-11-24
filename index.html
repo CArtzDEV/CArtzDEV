@@ -107,6 +107,49 @@
       font-size: 13px;
       color: #8b949e;
     }
+    .mv-anim-bar {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: rgba(22, 27, 34, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      max-width: calc(100% - 32px);
+      overflow-x: auto;
+    }
+    .mv-anim-bar.visible {
+      display: flex;
+    }
+    .mv-anim-btn {
+      border: 1px solid transparent;
+      background: transparent;
+      color: #8b949e;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .mv-anim-btn:hover {
+      color: #f0f6fc;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .mv-anim-btn.active {
+      background: rgba(56, 139, 253, 0.2);
+      color: #58a6ff;
+      border-color: rgba(56, 139, 253, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -116,6 +159,7 @@
       <model-viewer
         id="portfolio-viewer"
         alt="3D Model Preview"
+        autoplay
         auto-rotate
         camera-controls
         shadow-intensity="1"
@@ -129,6 +173,7 @@
       </model-viewer>
       <button class="mv-nav mv-prev" id="mv-prev-btn" aria-label="Previous model" disabled>❮</button>
       <button class="mv-nav mv-next" id="mv-next-btn" aria-label="Next model" disabled>❯</button>
+      <div class="mv-anim-bar" id="mv-anim-bar" role="group" aria-label="Model animations"></div>
     </div>
     <div class="mv-bar">
       <div class="mv-info">
@@ -236,6 +281,66 @@
       if (models.length <= 1) return;
       if (e.key === "ArrowLeft") renderModel(currentIndex - 1);
       if (e.key === "ArrowRight") renderModel(currentIndex + 1);
+    });
+    
+    const animBar = document.getElementById("mv-anim-bar");
+    
+    viewer.addEventListener("load", () => {
+      const animations = viewer.availableAnimations || [];
+      animBar.innerHTML = "";
+    
+      // Hide bar if the model has no animations
+      if (animations.length === 0) {
+        animBar.classList.remove("visible");
+        return;
+      }
+    
+      animBar.classList.add("visible");
+    
+      // If 1 normal animation: show a Play / Pause toggle button
+      if (animations.length === 1) {
+        viewer.animationName = animations[0];
+        viewer.play();
+    
+        const toggleBtn = document.createElement("button");
+        toggleBtn.className = "mv-anim-btn active";
+        toggleBtn.textContent = "❚❚ Pause";
+    
+        toggleBtn.addEventListener("click", () => {
+          if (viewer.paused) {
+            viewer.play();
+            toggleBtn.textContent = "❚❚ Pause";
+            toggleBtn.classList.add("active");
+          } else {
+            viewer.pause();
+            toggleBtn.textContent = "▶ Play";
+            toggleBtn.classList.remove("active");
+          }
+        });
+    
+        animBar.appendChild(toggleBtn);
+        return;
+      }
+    
+      // If multiple action animations: build a switcher pill for each one
+      animations.forEach((name, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "mv-anim-btn" + (idx === 0 ? " active" : "");
+        btn.textContent = name;
+    
+        btn.addEventListener("click", () => {
+          viewer.animationName = name;
+          viewer.play();
+          animBar.querySelectorAll(".mv-anim-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        });
+    
+        animBar.appendChild(btn);
+      });
+    
+      // Start playing the first animation by default
+      viewer.animationName = animations[0];
+      viewer.play();
     });
 
     loadModels();
