@@ -1,349 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CArtzDEV — 3D Portfolio</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 24px 16px;
-      background-color: #010409;
-      color: #e6edf3;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-    .mv-showcase {
-      max-width: 860px;
-      margin: 0 auto;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-    }
-    .mv-stage {
-      position: relative;
-      width: 100%;
-      height: 460px;
-      background: radial-gradient(circle at center, #1c2128 0%, #0d1117 100%);
-    }
-    .mv-stage model-viewer {
-      width: 100%;
-      height: 100%;
-      --poster-color: transparent;
-    }
-    .mv-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(22, 27, 34, 0.72);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #f0f6fc;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      z-index: 10;
-    }
-    .mv-nav:hover:not(:disabled) {
-      background: rgba(56, 139, 253, 0.25);
-      border-color: #58a6ff;
-      transform: translateY(-50%) scale(1.06);
-    }
-    .mv-nav:disabled {
-      opacity: 0.25;
-      cursor: not-allowed;
-    }
-    .mv-prev { left: 16px; }
-    .mv-next { right: 16px; }
-    .mv-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 20px;
-      background: #161b22;
-      border-top: 1px solid #30363d;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .mv-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .mv-badge {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(56, 139, 253, 0.15);
-      color: #58a6ff;
-      border: 1px solid rgba(56, 139, 253, 0.3);
-    }
-    .mv-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #f0f6fc;
-    }
-    .mv-counter {
-      font-size: 13px;
-      color: #8b949e;
-      font-variant-numeric: tabular-nums;
-    }
-    .mv-footer {
-      max-width: 860px;
-      margin: 24px auto 0;
-      padding-top: 16px;
-      border-top: 1px solid #30363d;
-      font-size: 13px;
-      color: #8b949e;
-    }
-    .mv-anim-bar {
-      position: absolute;
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: none;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 8px;
-      border-radius: 999px;
-      background: rgba(22, 27, 34, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      z-index: 10;
-      max-width: calc(100% - 32px);
-      overflow-x: auto;
-    }
-    .mv-anim-bar.visible {
-      display: flex;
-    }
-    .mv-anim-btn {
-      border: 1px solid transparent;
-      background: transparent;
-      color: #8b949e;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 999px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-    .mv-anim-btn:hover {
-      color: #f0f6fc;
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .mv-anim-btn.active {
-      background: rgba(56, 139, 253, 0.2);
-      color: #58a6ff;
-      border-color: rgba(56, 139, 253, 0.4);
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="code/style.css">
+    <title>CArtz Hub</title>
+  </head>
 
-  <div class="mv-showcase">
-    <div class="mv-stage">
-      <model-viewer
-        id="portfolio-viewer"
-        alt="3D Model Preview"
-        autoplay
-        auto-rotate
-        camera-controls
-        shadow-intensity="1"
-        exposure="0.2"
-        environment-image="neutral" 
-        interaction-prompt="auto">
-        <effect-composer render-mode="quality">
-          <bloom-effect strength="0.3" radius="0.3" threshold="1.0"></bloom-effect>
-          <color-grade-effect></color-grade-effect>
-        </effect-composer>
-      </model-viewer>
-      <button class="mv-nav mv-prev" id="mv-prev-btn" aria-label="Previous model" disabled>❮</button>
-      <button class="mv-nav mv-next" id="mv-next-btn" aria-label="Next model" disabled>❯</button>
-      <div class="mv-anim-bar" id="mv-anim-bar" role="group" aria-label="Model animations"></div>
-    </div>
-    <div class="mv-bar">
-      <div class="mv-info">
-        <span class="mv-badge" id="mv-source">LOADING</span>
-        <span class="mv-title" id="mv-title">Scanning repository...</span>
+  <body>
+    <div class="mv-showcase">
+      <div class="mv-stage">
+        <model-viewer
+          id="portfolio-viewer"
+          alt="3D Model Preview"
+          autoplay
+          auto-rotate
+          camera-controls
+          shadow-intensity="1"
+          exposure="0.2"
+          environment-image="neutral" 
+          interaction-prompt="auto">
+          <effect-composer render-mode="quality">
+            <bloom-effect strength="0.3" radius="0.3" threshold="1.0"></bloom-effect>
+            <color-grade-effect></color-grade-effect>
+          </effect-composer>
+        </model-viewer>
+        <button class="mv-nav mv-prev" id="mv-prev-btn" aria-label="Previous model" disabled>❮</button>
+        <button class="mv-nav mv-next" id="mv-next-btn" aria-label="Next model" disabled>❯</button>
+        <div class="mv-anim-bar" id="mv-anim-bar" role="group" aria-label="Model animations"></div>
       </div>
-      <div class="mv-counter" id="mv-counter">0 / 0</div>
+      <div class="mv-bar">
+        <div class="mv-info">
+          <span class="mv-badge" id="mv-source">LOADING</span>
+          <span class="mv-title" id="mv-title">Scanning repository...</span>
+        </div>
+        <div class="mv-counter" id="mv-counter">0 / 0</div>
+      </div>
     </div>
-  </div>
 
-  <footer class="mv-footer">
-    © 2026 CArtz. All rights reserved
-  </footer>
-  
-  <script type="module">
-    const cdn = "https://" + "esm.sh/";
-    await import(cdn + "@google/model-viewer@4.1.0");
-    await import(cdn + "@google/model-viewer-effects@1.2.0");
-  </script>
-
-  
-  <script type="module">
-    const CONFIG = {
-      GITHUB_USER: "CArtzDEV",
-      GITHUB_REPO: "CArtzDEV",
-      BRANCH: "main"
-    };
-
-    const viewer = document.getElementById("portfolio-viewer");
-    const titleEl = document.getElementById("mv-title");
-    const badgeEl = document.getElementById("mv-source");
-    const counterEl = document.getElementById("mv-counter");
-    const prevBtn = document.getElementById("mv-prev-btn");
-    const nextBtn = document.getElementById("mv-next-btn");
-
-    let models = [];
-    let currentIndex = 0;
-
-    function formatName(filePath) {
-      const fileName = filePath.split("/").pop().replace(/\.glb$/i, "");
-      return fileName
-        .replace(/[_-]+/g, " ")
-        .replace(/\b\w/g, (c) => c.toUpperCase());
-    }
-
-    function detectSoftware(filePath) {
-      const folder = filePath.split("/")[0]?.toLowerCase();
-      const folderUpper = String(folder).charAt(0).toUpperCase() + String(folder).slice(1);
-      return folderUpper && filePath.includes("/") ? folderUpper : "Asset";
-    }
-
-    function renderModel(index) {
-      if (!models.length) return;
-      currentIndex = (index + models.length) % models.length;
-      const item = models[currentIndex];
-
-      // Encode path segments so spaces/special characters in filenames load properly on GitHub Pages
-      const encodedPath = item.path.split("/").map(encodeURIComponent).join("/");
-      viewer.src = `./${encodedPath}`;
-      viewer.alt = item.title;
-      titleEl.textContent = item.title;
-      badgeEl.textContent = item.software;
-      counterEl.textContent = `${currentIndex + 1} / ${models.length}`;
-    }
-
-    async function loadModels() {
-      const apiUrl = `https://api.github.com/repos/${CONFIG.GITHUB_USER}/${CONFIG.GITHUB_REPO}/git/trees/${CONFIG.BRANCH}?recursive=1`;
-
-      try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
-        const data = await response.json();
-
-        models = (data.tree || [])
-          .filter((node) => node.type === "blob" && node.path.toLowerCase().endsWith(".glb"))
-          .map((node) => ({
-            path: node.path,
-            title: formatName(node.path),
-            software: detectSoftware(node.path)
-          }));
-
-        if (models.length === 0) {
-          badgeEl.textContent = "EMPTY";
-          titleEl.textContent = "No .glb models found in repository";
-          return;
-        }
-
-        if (models.length > 1) {
-          prevBtn.disabled = false;
-          nextBtn.disabled = false;
-        }
-
-        renderModel(0);
-      } catch (err) {
-        badgeEl.textContent = "ERROR";
-        titleEl.textContent = "Failed to load models from GitHub API";
-        console.error(err);
-      }
-    }
-
-    prevBtn.addEventListener("click", () => renderModel(currentIndex - 1));
-    nextBtn.addEventListener("click", () => renderModel(currentIndex + 1));
-
-    window.addEventListener("keydown", (e) => {
-      if (models.length <= 1) return;
-      if (e.key === "ArrowLeft") renderModel(currentIndex - 1);
-      if (e.key === "ArrowRight") renderModel(currentIndex + 1);
-    });
+    <footer class="mv-footer">© 2026 CArtz. All rights reserved</footer>
     
-    const animBar = document.getElementById("mv-anim-bar");
-    
-    viewer.addEventListener("load", () => {
-      const animations = viewer.availableAnimations || [];
-      animBar.innerHTML = "";
-    
-      // Hide bar if the model has no animations
-      if (animations.length === 0) {
-        animBar.classList.remove("visible");
-        return;
-      }
-    
-      animBar.classList.add("visible");
-    
-      // If 1 normal animation: show a Play / Pause toggle button
-      if (animations.length === 1) {
-        viewer.animationName = animations[0];
-        viewer.play();
-    
-        const toggleBtn = document.createElement("button");
-        toggleBtn.className = "mv-anim-btn active";
-        toggleBtn.textContent = "❚❚ Pause";
-    
-        toggleBtn.addEventListener("click", () => {
-          if (viewer.paused) {
-            viewer.play();
-            toggleBtn.textContent = "❚❚ Pause";
-            toggleBtn.classList.add("active");
-          } else {
-            viewer.pause();
-            toggleBtn.textContent = "▶ Play";
-            toggleBtn.classList.remove("active");
-          }
-        });
-    
-        animBar.appendChild(toggleBtn);
-        return;
-      }
-    
-      // If multiple action animations: build a switcher pill for each one
-      animations.forEach((name, idx) => {
-        const btn = document.createElement("button");
-        btn.className = "mv-anim-btn" + (idx === 0 ? " active" : "");
-        btn.textContent = name;
-    
-        btn.addEventListener("click", () => {
-          viewer.animationName = name;
-          viewer.play();
-          animBar.querySelectorAll(".mv-anim-btn").forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-        });
-    
-        animBar.appendChild(btn);
-      });
-    
-      // Start playing the first animation by default
-      viewer.animationName = animations[0];
-      viewer.play();
-    });
-
-    loadModels();
-  </script>
-</body>
+    <script type="module" src="code/import.js"></script>
+    <script src="code/variables.js"></script> 
+    <script src="code/buttons.js"></script> 
+    <script src="code/render.js"></script>
+    <script src="code/animations.js"></script> 
+  </body>
 </html>
